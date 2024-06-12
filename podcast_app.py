@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import xml.etree.ElementTree as ET
 
-# Function to fetch the last two podcast episodes from Apple Podcasts RSS feed
+# Function to fetch the last two podcast episodes from RSS feed
 def fetch_last_two_episodes(rss_url):
     response = requests.get(rss_url)
     if response.status_code != 200:
@@ -25,31 +25,31 @@ def fetch_last_two_episodes(rss_url):
     return episodes
 
 # RSS feed URLs
-jenna_rss = 'https://feeds.simplecast.com/8vqw4qK_'
-amy_rss = 'https://feeds.simplecast.com/DBvwNlgY'
+npr_rss = 'https://feeds.npr.org/500005/podcast.xml'
+daily_rss = 'https://feeds.simplecast.com/54nAGcIl'
 
 # Fetch the last two episodes
-jenna_episodes = fetch_last_two_episodes(jenna_rss)
-amy_episodes = fetch_last_two_episodes(amy_rss)
+npr_episodes = fetch_last_two_episodes(npr_rss)
+daily_episodes = fetch_last_two_episodes(daily_rss)
 
 # Streamlit app
-st.title("Latest Podcasts from Jenna Kutcher and Amy Porterfield")
+st.title("Latest Podcasts from NPR News Now and The Daily")
 
-st.header("Jenna Kutcher - [Goal Digger Podcast](https://podcasts.apple.com/us/podcast/the-goal-digger-podcast/id1178704872)")
-if not jenna_episodes:
+st.header("NPR News Now")
+if not npr_episodes:
     st.write("No episodes found.")
 else:
-    for episode in jenna_episodes:
+    for episode in npr_episodes:
         st.subheader(episode['title'])
         st.write(f"Published on: {episode['published']}")
         st.write(episode['description'], unsafe_allow_html=True)
         st.markdown(f"[Listen Here]({episode['link']})", unsafe_allow_html=True)
 
-st.header("Amy Porterfield - [Online Marketing Made Easy](https://podcasts.apple.com/us/podcast/online-marketing-made-easy-with-amy-porterfield/id594703545)")
-if not amy_episodes:
+st.header("The Daily")
+if not daily_episodes:
     st.write("No episodes found.")
 else:
-    for episode in amy_episodes:
+    for episode in daily_episodes:
         st.subheader(episode['title'])
         st.write(f"Published on: {episode['published']}")
         st.write(episode['description'], unsafe_allow_html=True)
