@@ -32,29 +32,29 @@ daily_rss = 'https://feeds.simplecast.com/54nAGcIl'
 npr_episodes = fetch_last_two_episodes(npr_rss)
 daily_episodes = fetch_last_two_episodes(daily_rss)
 
-# Debugging information
-st.write("NPR episodes fetched:", npr_episodes)
-st.write("The Daily episodes fetched:", daily_episodes)
-
 # Streamlit app
-st.title("Latest Podcasts from NPR News Now and The Daily")
+st.set_page_config(page_title="Podcast Aggregator", page_icon="🎧", layout="wide")
 
-st.header("NPR News Now")
-if not npr_episodes:
-    st.write("No episodes found.")
-else:
-    for episode in npr_episodes:
-        st.subheader(episode['title'])
-        st.write(f"Published on: {episode['published']}")
-        st.write(episode['description'], unsafe_allow_html=True)
-        st.markdown(f"[Listen Here]({episode['link']})", unsafe_allow_html=True)
+st.title("🎧 Latest Podcasts from NPR News Now and The Daily")
+st.markdown("---")
 
-st.header("The Daily")
-if not daily_episodes:
-    st.write("No episodes found.")
-else:
-    for episode in daily_episodes:
-        st.subheader(episode['title'])
-        st.write(f"Published on: {episode['published']}")
-        st.write(episode['description'], unsafe_allow_html=True)
-        st.markdown(f"[Listen Here]({episode['link']})", unsafe_allow_html=True)
+def display_episodes(podcast_name, episodes):
+    st.header(podcast_name)
+    if not episodes:
+        st.write("No episodes found.")
+    else:
+        for episode in episodes:
+            st.subheader(episode['title'])
+            st.write(f"Published on: {episode['published']}")
+            st.write(episode['description'], unsafe_allow_html=True)
+            st.markdown(f"[Listen Here]({episode['link']})", unsafe_allow_html=True)
+            st.markdown("---")
+
+# Display episodes
+col1, col2 = st.columns(2)
+
+with col1:
+    display_episodes("NPR News Now", npr_episodes)
+
+with col2:
+    display_episodes("The Daily", daily_episodes)
