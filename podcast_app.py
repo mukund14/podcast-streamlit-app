@@ -4,9 +4,12 @@ import xml.etree.ElementTree as ET
 
 # Function to fetch the last two podcast episodes from RSS feed
 def fetch_last_two_episodes(rss_url):
-    response = requests.get(rss_url)
-    if response.status_code != 200:
+    try:
+        response = requests.get(rss_url)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
         st.error(f"Failed to fetch data from {rss_url}")
+        st.error(str(e))
         return []
     
     root = ET.fromstring(response.content)
@@ -27,8 +30,8 @@ def fetch_last_two_episodes(rss_url):
 # RSS feed URLs with reliable alternatives
 podcasts = {
     'Productivity': [
-        {'name': 'The Productivity Show', 'rss': 'https://feeds.transistor.fm/the-productivity-show'},
-        {'name': 'The Tim Ferriss Show', 'rss': 'https://rss.art19.com/the-tim-ferriss-show'}
+        {'name': 'The Productivity Show', 'rss': 'https://productivitycast.libsyn.com/rss'},
+        {'name': 'The Tim Ferriss Show', 'rss': 'https://feeds.simplecast.com/8m8T9KJ2'}
     ],
     'Finance': [
         {'name': 'Planet Money', 'rss': 'https://feeds.npr.org/510289/podcast.xml'},
