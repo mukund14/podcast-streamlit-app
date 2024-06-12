@@ -31,7 +31,7 @@ def fetch_last_two_episodes(rss_url):
 podcasts = {
     'Productivity': [
         {'name': 'The Productivity Show', 'rss': 'https://rss.transistor.fm/the-productivity-show'},
-        {'name': 'The Tim Ferriss Show', 'rss': 'https://feeds.simplecast.com/7gfr8yWi'}
+        {'name': 'The Tim Ferriss Show', 'rss': 'https://feeds.simplecast.com/rcfEFnV4'}
     ],
     'Finance': [
         {'name': 'Planet Money', 'rss': 'https://feeds.npr.org/510289/podcast.xml'},
