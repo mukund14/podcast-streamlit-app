@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import xml.etree.ElementTree as ET
 
-# Function to fetch the last two podcast episodes from RSS feed
+# Function to fetch the last two podcast episodes from Apple Podcasts RSS feed
 def fetch_last_two_episodes(rss_url):
     response = requests.get(rss_url)
     if response.status_code != 200:
@@ -31,10 +31,6 @@ amy_rss = 'https://feeds.simplecast.com/DBvwNlgY'
 # Fetch the last two episodes
 jenna_episodes = fetch_last_two_episodes(jenna_rss)
 amy_episodes = fetch_last_two_episodes(amy_rss)
-
-# Debugging information
-print("Jenna episodes fetched:", jenna_episodes)
-print("Amy episodes fetched:", amy_episodes)
 
 # Streamlit app
 st.title("Latest Podcasts from Jenna Kutcher and Amy Porterfield")
