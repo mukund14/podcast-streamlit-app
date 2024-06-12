@@ -7,12 +7,22 @@ def fetch_last_two_episodes(rss_url):
     try:
         response = requests.get(rss_url)
         response.raise_for_status()
+        content_type = response.headers.get('Content-Type', '').lower()
+        if 'xml' not in content_type:
+            st.error(f"Invalid content type: {content_type} for URL: {rss_url}")
+            return []
     except requests.exceptions.RequestException as e:
         st.error(f"Failed to fetch data from {rss_url}")
         st.error(str(e))
         return []
     
-    root = ET.fromstring(response.content)
+    try:
+        root = ET.fromstring(response.content)
+    except ET.ParseError as e:
+        st.error(f"Failed to parse XML from {rss_url}")
+        st.error(str(e))
+        return []
+
     episodes = []
     for item in root.findall('./channel/item')[:2]:
         title = item.find('title').text if item.find('title') is not None else 'No title'
