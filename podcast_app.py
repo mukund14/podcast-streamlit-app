@@ -12,10 +12,10 @@ def fetch_last_two_episodes(rss_url):
     root = ET.fromstring(response.content)
     episodes = []
     for item in root.findall('./channel/item')[:2]:
-        title = item.find('title').text
-        link = item.find('link').text
-        pub_date = item.find('pubDate').text
-        description = item.find('description').text
+        title = item.find('title').text if item.find('title') is not None else 'No title'
+        link = item.find('link').text if item.find('link') is not None else 'No link'
+        pub_date = item.find('pubDate').text if item.find('pubDate') is not None else 'No publication date'
+        description = item.find('description').text if item.find('description') is not None else 'No description'
         episodes.append({
             'title': title,
             'link': link,
@@ -31,6 +31,10 @@ daily_rss = 'https://feeds.simplecast.com/54nAGcIl'
 # Fetch the last two episodes
 npr_episodes = fetch_last_two_episodes(npr_rss)
 daily_episodes = fetch_last_two_episodes(daily_rss)
+
+# Debugging information
+st.write("NPR episodes fetched:", npr_episodes)
+st.write("The Daily episodes fetched:", daily_episodes)
 
 # Streamlit app
 st.title("Latest Podcasts from NPR News Now and The Daily")
