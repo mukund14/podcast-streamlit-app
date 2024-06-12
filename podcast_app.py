@@ -24,10 +24,10 @@ def fetch_last_two_episodes(rss_url):
         })
     return episodes
 
-# RSS feed URLs
+# RSS feed URLs with reliable alternatives
 podcasts = {
     'Productivity': [
-        {'name': 'The Productivity Show', 'rss': 'https://productivitycast.libsyn.com/rss'},
+        {'name': 'The Productivity Show', 'rss': 'https://feeds.transistor.fm/the-productivity-show'},
         {'name': 'The Tim Ferriss Show', 'rss': 'https://rss.art19.com/the-tim-ferriss-show'}
     ],
     'Finance': [
