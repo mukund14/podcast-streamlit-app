@@ -30,8 +30,8 @@ def fetch_last_two_episodes(rss_url):
 # RSS feed URLs with reliable alternatives
 podcasts = {
     'Productivity': [
-        {'name': 'The Productivity Show', 'rss': 'https://rss.transistor.fm/the-productivity-show'},
-        {'name': 'The Tim Ferriss Show', 'rss': 'https://feeds.simplecast.com/rcfEFnV4'}
+        {'name': 'The Tony Robbins Podcast', 'rss': 'https://tonyrobbins.libsyn.com/rss'},
+        {'name': 'The Tim Ferriss Show', 'rss': 'https://tim.blog/feed/podcast/'}
     ],
     'Finance': [
         {'name': 'Planet Money', 'rss': 'https://feeds.npr.org/510289/podcast.xml'},
