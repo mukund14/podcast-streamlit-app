@@ -5,6 +5,10 @@ import xml.etree.ElementTree as ET
 # Function to fetch the last two podcast episodes from RSS feed
 def fetch_last_two_episodes(rss_url):
     response = requests.get(rss_url)
+    if response.status_code != 200:
+        st.error(f"Failed to fetch data from {rss_url}")
+        return []
+    
     root = ET.fromstring(response.content)
     episodes = []
     for item in root.findall('./channel/item')[:2]:
@@ -28,19 +32,29 @@ amy_rss = 'https://feeds.simplecast.com/DBvwNlgY'
 jenna_episodes = fetch_last_two_episodes(jenna_rss)
 amy_episodes = fetch_last_two_episodes(amy_rss)
 
+# Debugging information
+print("Jenna episodes fetched:", jenna_episodes)
+print("Amy episodes fetched:", amy_episodes)
+
 # Streamlit app
 st.title("Latest Podcasts from Jenna Kutcher and Amy Porterfield")
 
 st.header("Jenna Kutcher - [Goal Digger Podcast](https://podcasts.apple.com/us/podcast/the-goal-digger-podcast/id1178704872)")
-for episode in jenna_episodes:
-    st.subheader(episode['title'])
-    st.write(f"Published on: {episode['published']}")
-    st.write(episode['description'], unsafe_allow_html=True)
-    st.markdown(f"[Listen Here]({episode['link']})", unsafe_allow_html=True)
+if not jenna_episodes:
+    st.write("No episodes found.")
+else:
+    for episode in jenna_episodes:
+        st.subheader(episode['title'])
+        st.write(f"Published on: {episode['published']}")
+        st.write(episode['description'], unsafe_allow_html=True)
+        st.markdown(f"[Listen Here]({episode['link']})", unsafe_allow_html=True)
 
 st.header("Amy Porterfield - [Online Marketing Made Easy](https://podcasts.apple.com/us/podcast/online-marketing-made-easy-with-amy-porterfield/id594703545)")
-for episode in amy_episodes:
-    st.subheader(episode['title'])
-    st.write(f"Published on: {episode['published']}")
-    st.write(episode['description'], unsafe_allow_html=True)
-    st.markdown(f"[Listen Here]({episode['link']})", unsafe_allow_html=True)
+if not amy_episodes:
+    st.write("No episodes found.")
+else:
+    for episode in amy_episodes:
+        st.subheader(episode['title'])
+        st.write(f"Published on: {episode['published']}")
+        st.write(episode['description'], unsafe_allow_html=True)
+        st.markdown(f"[Listen Here]({episode['link']})", unsafe_allow_html=True)
