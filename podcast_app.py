@@ -25,36 +25,46 @@ def fetch_last_two_episodes(rss_url):
     return episodes
 
 # RSS feed URLs
-npr_rss = 'https://feeds.npr.org/500005/podcast.xml'
-daily_rss = 'https://feeds.simplecast.com/54nAGcIl'
-
-# Fetch the last two episodes
-npr_episodes = fetch_last_two_episodes(npr_rss)
-daily_episodes = fetch_last_two_episodes(daily_rss)
+podcasts = {
+    'Productivity': [
+        {'name': 'The Productivity Show', 'rss': 'https://productivitycast.libsyn.com/rss'},
+        {'name': 'The Tim Ferriss Show', 'rss': 'https://rss.art19.com/the-tim-ferriss-show'}
+    ],
+    'Finance': [
+        {'name': 'Planet Money', 'rss': 'https://feeds.npr.org/510289/podcast.xml'},
+        {'name': 'Freakonomics Radio', 'rss': 'https://feeds.megaphone.fm/ADL9840290619'}
+    ],
+    'Data Science': [
+        {'name': 'Data Skeptic', 'rss': 'https://dataskeptic.com/feed.rss'},
+        {'name': 'Not So Standard Deviations', 'rss': 'https://feeds.simplecast.com/tOjNXec5'}
+    ]
+}
 
 # Streamlit app
-st.set_page_config(page_title="Podcast Aggregator", page_icon="🎧", layout="wide")
+st.set_page_config(page_title="Podcast Dashboard", page_icon="🎧", layout="wide")
 
-st.title("🎧 Latest Podcasts from NPR News Now and The Daily")
+st.title("🎧 Podcast Dashboard on Productivity, Finance, and Data Science")
 st.markdown("---")
 
+# Function to display episodes
 def display_episodes(podcast_name, episodes):
-    st.header(podcast_name)
+    st.subheader(podcast_name)
     if not episodes:
         st.write("No episodes found.")
     else:
         for episode in episodes:
-            st.subheader(episode['title'])
+            st.markdown(f"**{episode['title']}**")
             st.write(f"Published on: {episode['published']}")
             st.write(episode['description'], unsafe_allow_html=True)
             st.markdown(f"[Listen Here]({episode['link']})", unsafe_allow_html=True)
             st.markdown("---")
 
-# Display episodes
-col1, col2 = st.columns(2)
-
-with col1:
-    display_episodes("NPR News Now", npr_episodes)
-
-with col2:
-    display_episodes("The Daily", daily_episodes)
+# Display podcast sections
+for category, feeds in podcasts.items():
+    st.header(category)
+    col1, col2 = st.columns(2)
+    
+    for i, feed in enumerate(feeds):
+        episodes = fetch_last_two_episodes(feed['rss'])
+        with col1 if i % 2 == 0 else col2:
+            display_episodes(feed['name'], episodes)
