@@ -41,7 +41,7 @@ def fetch_last_two_episodes(rss_url):
 podcasts = {
     'Productivity': [
         {'name': 'The Tony Robbins Podcast', 'rss': 'https://tonyrobbins.libsyn.com/rss'},
-        {'name': 'The Tim Ferriss Show', 'rss': 'https://tim.blog/feed/podcast/'}
+        {'name': 'The Tim Ferriss Show', 'rss': 'https://tim.blog/feed/'}
     ],
     'Finance': [
         {'name': 'Planet Money', 'rss': 'https://feeds.npr.org/510289/podcast.xml'},
